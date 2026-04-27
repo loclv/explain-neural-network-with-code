@@ -21,7 +21,9 @@ pub fn main(init: std.process.Init) !void {
     defer network.deinit();
     network.randomize(rng);
 
-    try stdout_writer.print("Training a {d}-{d}-{d} network on XOR...\n", .{ layer_sizes[0], layer_sizes[1], layer_sizes[2] });
+    try stdout_writer.print("Training a {d}-{d}-{d} network on XOR...\n", .{
+        layer_sizes[0], layer_sizes[1], layer_sizes[2],
+    });
 
     var x0 = try nn.Matrix.init(arena, 2, 1);
     defer x0.deinit(arena);

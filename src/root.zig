@@ -18,12 +18,14 @@ pub const Matrix = struct {
     }
 
     pub fn get(self: Matrix, r: usize, c: usize) f32 {
-        std.debug.assert(r < self.rows and c < self.cols);
+        std.debug.assert(r < self.rows);
+        std.debug.assert(c < self.cols);
         return self.data[r * self.cols + c];
     }
 
     pub fn set(self: *Matrix, r: usize, c: usize, value: f32) void {
-        std.debug.assert(r < self.rows and c < self.cols);
+        std.debug.assert(r < self.rows);
+        std.debug.assert(c < self.cols);
         self.data[r * self.cols + c] = value;
     }
 
@@ -49,15 +51,18 @@ pub const Matrix = struct {
     }
 
     pub fn add(out: *Matrix, a: Matrix, b: Matrix) void {
-        std.debug.assert(a.rows == b.rows and a.cols == b.cols);
-        std.debug.assert(out.rows == a.rows and out.cols == a.cols);
+        std.debug.assert(a.rows == b.rows);
+        std.debug.assert(a.cols == b.cols);
+        std.debug.assert(out.rows == a.rows);
+        std.debug.assert(out.cols == a.cols);
         for (0..a.data.len) |i| {
             out.data[i] = a.data[i] + b.data[i];
         }
     }
 
     pub fn transpose(out: *Matrix, a: Matrix) void {
-        std.debug.assert(out.rows == a.cols and out.cols == a.rows);
+        std.debug.assert(out.rows == a.cols);
+        std.debug.assert(out.cols == a.rows);
         for (0..a.rows) |i| {
             for (0..a.cols) |j| {
                 out.set(j, i, a.get(i, j));
@@ -66,34 +71,40 @@ pub const Matrix = struct {
     }
 
     pub fn apply(out: *Matrix, a: Matrix, func: *const fn (f32) f32) void {
-        std.debug.assert(out.rows == a.rows and out.cols == a.cols);
+        std.debug.assert(out.rows == a.rows);
+        std.debug.assert(out.cols == a.cols);
         for (0..a.data.len) |i| {
             out.data[i] = func(a.data[i]);
         }
     }
 
     pub fn applyEach(out: *Matrix, a: Matrix, func: *const fn (f32) f32) void {
-        std.debug.assert(out.rows == a.rows and out.cols == a.cols);
+        std.debug.assert(out.rows == a.rows);
+        std.debug.assert(out.cols == a.cols);
         for (0..a.data.len) |i| {
             out.data[i] = func(a.data[i]);
         }
     }
 
     pub fn copy(out: *Matrix, a: Matrix) void {
-        std.debug.assert(out.rows == a.rows and out.cols == a.cols);
+        std.debug.assert(out.rows == a.rows);
+        std.debug.assert(out.cols == a.cols);
         @memcpy(out.data, a.data);
     }
 
     pub fn elementWiseMul(out: *Matrix, a: Matrix, b: Matrix) void {
-        std.debug.assert(a.rows == b.rows and a.cols == b.cols);
-        std.debug.assert(out.rows == a.rows and out.cols == a.cols);
+        std.debug.assert(a.rows == b.rows);
+        std.debug.assert(a.cols == b.cols);
+        std.debug.assert(out.rows == a.rows);
+        std.debug.assert(out.cols == a.cols);
         for (0..a.data.len) |i| {
             out.data[i] = a.data[i] * b.data[i];
         }
     }
 
     pub fn scale(out: *Matrix, a: Matrix, s: f32) void {
-        std.debug.assert(out.rows == a.rows and out.cols == a.cols);
+        std.debug.assert(out.rows == a.rows);
+        std.debug.assert(out.cols == a.cols);
         for (0..a.data.len) |i| {
             out.data[i] = a.data[i] * s;
         }
@@ -114,7 +125,7 @@ pub fn relu(x: f32) f32 {
     return if (x > 0) x else 0.01 * x;
 }
 
-pub fn relu_derivative(x: f32) f32 {
+pub fn reluDerivative(x: f32) f32 {
     return if (x > 0) 1 else 0.01;
 }
 
@@ -122,7 +133,7 @@ pub fn sigmoid(x: f32) f32 {
     return 1.0 / (1.0 + @exp(-x));
 }
 
-pub fn sigmoid_derivative(x: f32) f32 {
+pub fn sigmoidDerivative(x: f32) f32 {
     const s = sigmoid(x);
     return s * (1.0 - s);
 }
@@ -212,7 +223,13 @@ pub const NeuralNetwork = struct {
         return current;
     }
 
-    pub fn train(self: *NeuralNetwork, inputs: []const Matrix, targets: []const Matrix, epochs: usize, learning_rate: f32) !void {
+    pub fn train(
+        self: *NeuralNetwork,
+        inputs: []const Matrix,
+        targets: []const Matrix,
+        epochs: usize,
+        learning_rate: f32,
+    ) !void {
         std.debug.assert(inputs.len == targets.len);
 
         for (0..epochs) |_| {
@@ -234,7 +251,7 @@ pub const NeuralNetwork = struct {
                     output_layer.bias_gradients.data[i] -= target.data[i];
                 }
                 for (0..output_layer.bias_gradients.data.len) |i| {
-                    output_layer.bias_gradients.data[i] *= sigmoid_derivative(output_layer.pre_activation.data[i]);
+                    output_layer.bias_gradients.data[i] *= sigmoidDerivative(output_layer.pre_activation.data[i]);
                 }
 
                 // Hidden layers
@@ -257,7 +274,7 @@ pub const NeuralNetwork = struct {
 
                         Matrix.copy(&layer.bias_gradients, error_before_act);
                         for (0..layer.bias_gradients.data.len) |i| {
-                            layer.bias_gradients.data[i] *= relu_derivative(layer.pre_activation.data[i]);
+                            layer.bias_gradients.data[i] *= reluDerivative(layer.pre_activation.data[i]);
                         }
 
                         next_error = layer.bias_gradients;
