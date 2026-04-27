@@ -4,7 +4,11 @@ description: Follow ziglint rules when writing or editing Zig code
 
 When writing or editing Zig source files in this project, ensure the code passes `ziglint` (v0.5.2).
 
-Key rules to follow:
+Workflow rule:
+
+- **Run `ziglint` before finishing** — After every edit to a `.zig` file, run `ziglint` and fix all warnings before marking the task complete.
+
+Key style rules to follow:
 
 - **Z001 — camelCase functions**: All function names must be `camelCase`.  
   Bad: `relu_derivative`  
@@ -19,5 +23,3 @@ Key rules to follow:
   ```
 
 - **Z024 — Max line length**: No line may exceed 120 characters. Break long function signatures, struct literals, and argument lists across multiple lines using trailing commas.
-
-Before finishing any Zig-related task, run `ziglint` and fix all warnings.
