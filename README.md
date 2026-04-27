@@ -4,13 +4,13 @@ A minimal, fully-connected feedforward neural network implemented from scratch i
 
 ## Features
 
-- **Dense Matrix type** with row-major storage and basic linear algebra (`dot`, `transpose`, `add`, element-wise ops)
-- **Feedforward layers** with configurable input/output sizes
-- **Activation functions**: Leaky ReLU (hidden) and sigmoid (output), with derivatives
-- **Full backpropagation** training loop via stochastic gradient descent
-- **He initialization** for weights
-- **Built-in tests** including an end-to-end XOR convergence test
-- **Zero dependencies** beyond the Zig standard library
+- Dense Matrix type with row-major storage and basic linear algebra (`dot`, `transpose`, `add`, element-wise ops)
+- Feedforward layers with configurable input/output sizes
+- Activation functions: Leaky ReLU (hidden) and sigmoid (output), with derivatives
+- Full backpropagation training loop via stochastic gradient descent
+- He initialization for weights
+- Built-in tests including an end-to-end XOR convergence test
+- Zero dependencies beyond the Zig standard library
 
 ## Requirements
 
@@ -82,10 +82,10 @@ pub fn sigmoid_derivative(x: f32) f32;
 
 ## Design Notes
 
-- **Manual memory management**: Every `Matrix` and `NeuralNetwork` requires an allocator and a matching `deinit()` call.
-- **Pre-allocated buffers**: The training loop reuses layer-internal gradient buffers to minimize allocations.
-- **Fixed architecture**: Network topology is set at init time. The last layer always uses sigmoid; all hidden layers use Leaky ReLU.
-- **Single-sample SGD**: `train()` updates weights after every example. No batching, no momentum, no Adam.
+- Manual memory management: Every `Matrix` and `NeuralNetwork` requires an allocator and a matching `deinit()` call.
+- Pre-allocated buffers: The training loop reuses layer-internal gradient buffers to minimize allocations.
+- Fixed architecture: Network topology is set at init time. The last layer always uses sigmoid; all hidden layers use Leaky ReLU.
+- Single-sample SGD: `train()` updates weights after every example. No batching, no momentum, no Adam.
 
 ## Limitations / Future Work
 
