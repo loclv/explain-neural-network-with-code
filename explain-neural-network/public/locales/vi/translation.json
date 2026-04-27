@@ -1,0 +1,99 @@
+{
+  "app": {
+    "title": "Mạng Nơ-ron Từ Đầu",
+    "subtitle": "Một trực quan hóa tương tác của mạng truyền thẳng 2-4-1 được huấn luyện trên XOR. Các kết nối màu xanh là trọng số dương, màu đỏ là trọng số âm.",
+    "whatIsThis": "Đây là gì?",
+    "description1": "Một <1>mạng nơ-ron</1> là một bộ não máy tính tí hon được tạo thành từ các nơ-ron ảo. Mỗi nơ-ron nhận các con số, nhân chúng với các núm vặn nhỏ gọi là <2>trọng số</2>, cộng thêm độ lệch, và đưa kết quả qua hàm kích hoạt để quyết định nơ-ron đó nên \"kích hoạt\" mạnh hay giữ yên lặng.",
+    "description2": "Bản demo này cho thấy một mạng có <1>2 đầu vào</1>, <2>4 nơ-ron ẩn</2>, và <3>1 đầu ra</3>. Nó đang học mẫu XOR — một bài toán cổ điển mà một đường thẳng đơn giản không thể giải. Bạn có thể kéo thanh trượt để đưa cho bộ não hai con số bất kỳ, nhấn <4>Huấn luyện XOR</4> để nó luyện tập, và quan sát các trọng số thay đổi màu sắc và độ dày khi chúng tìm ra đáp án đúng.",
+    "description3": "Mọi thứ bạn thấy đều được tính toán ngay trong trình duyệt của bạn bằng cùng thuật toán với triển khai Zig trong kho mã nguồn chính. Không có đám mây, không có thư viện — chỉ có vòng lặp, ma trận, và một chút kiên nhẫn."
+  },
+  "network": {
+    "architecture": "Kiến trúc Mạng",
+    "positiveWeight": "Trọng số dương",
+    "negativeWeight": "Trọng số âm",
+    "input": "Đầu vào",
+    "hidden": "Ẩn (4)",
+    "output": "Đầu ra"
+  },
+  "controls": {
+    "interactiveInput": "Đầu vào Tương tác",
+    "howItWorks": "Cách hoạt động (dành cho trẻ em!)",
+    "howItWorksLine1": "Hãy tưởng tượng một bộ não robot tí hon có 2 tai và 1 miệng.",
+    "howItWorksLine2": "<1>Hai thanh trượt</1> giống như công tắc điều chỉnh độ sáng. Kéo chúng về 0 (tắt) hoặc 1 (bật) hoặc bất kỳ giá trị nào ở giữa.",
+    "howItWorksLine3": "<1>Bộ não</1> nhìn thấy hai con số và đưa ra một dự đoán. Dự đoán hiển thị trong hộp xanh bên dưới.",
+    "howItWorksLine4": "Dự đoán gần <1>0</1> có nghĩa là bộ não nghĩ \"tắt.\" Dự đoán gần <1>1</1> có nghĩa là nó nghĩ \"bật.\"",
+    "howItWorksLine5": "Khi bạn nhấn <1>Huấn luyện XOR</1>, bộ não sẽ luyện tập với các thẻ ghi nhớ cho đến khi nó học được quy luật bí mật!",
+    "inputX": "Đầu vào x{{idx}}: {{val}}",
+    "prediction": "Dự đoán",
+    "class0": "Lớp: 0",
+    "class1": "Lớp: 1",
+    "trainOnXor": "Huấn luyện XOR",
+    "trainingEpochs": "Đang huấn luyện… {{count}} epoch",
+    "reset": "Đặt lại"
+  },
+  "xor": {
+    "truthTable": "Bảng Chân lý XOR",
+    "target": "Mục tiêu: {{value}}"
+  },
+  "loss": {
+    "title": "Mất mát Huấn luyện",
+    "epoch": "Epoch"
+  },
+  "matrixDemo": {
+    "title": "Cách Nhân Ma Trận",
+    "subtitle": "Mạng nơ-ron nhân ma trận đúng như thế này. Hãy xem từng hàng gặp từng cột để tạo ra một ô kết quả.",
+    "matrixA": "Ma Trận A",
+    "matrixB": "Ma Trận B",
+    "result": "Kết Quả",
+    "allDone": "Xong rồi! Mọi ô kết quả đã được điền.",
+    "cellComplete": "Ô ({{row}}, {{col}}) = {{value}} — đã lưu!",
+    "computing": "Hàng {{row}} · Cột {{col}}:  {{a}} × {{b}}  (tạm tính {{partial}})",
+    "prev": "Lùi",
+    "next": "Tiếp",
+    "play": "Chạy",
+    "pause": "Dừng",
+    "reset": "Làm lại"
+  },
+  "weights": {
+    "title": "Ma trận Trọng số",
+    "layerWeights": "Trọng số Lớp {{idx}} ({{rows}} × {{cols}})"
+  },
+  "code": {
+    "title": "Cách Hoạt Động",
+    "expandSection": "Mở rộng phần",
+    "blocks": {
+      "matrixDefinition": {
+        "title": "Định nghĩa Ma trận",
+        "description": "Mạng nơ-ron được xây dựng trên các ma trận. Chúng tôi lưu trữ mỗi ma trận dưới dạng Float32Array phẳng theo thứ tự hàng chính: phần tử (r, c) nằm ở chỉ số r * cols + c. Điều này khớp chính xác với triển khai Zig."
+      },
+      "matrixMultiplication": {
+        "title": "Nhân Ma trận",
+        "description": "Trái tim của mạng nơ-ron là tích vô hướng: z = W · x. Vòng lặp lồng ba lớp này nhân ma trận (m×n) với ma trận (n×p), tạo ra kết quả (m×p). Không có BLAS, không có SIMD—chỉ là thuật toán thô để bạn có thể theo dõi từng phép nhân."
+      },
+      "activationFunctions": {
+        "title": "Hàm Kích hoạt",
+        "description": "Hàm kích hoạt mang lại tính phi tuyến. Không có chúng, xếp chồng các lớp sẽ tương đương với một phép biến đổi tuyến tính đơn giản. Chúng tôi sử dụng Leaky ReLU cho các lớp ẩn (tránh các nơ-ron \"chết\") và sigmoid cho lớp đầu ra (cho một xác suất nằm giữa 0 và 1)."
+      },
+      "heInitialisation": {
+        "title": "Khởi tạo He",
+        "description": "Khởi tạo trọng số rất quan trọng. Nếu trọng số quá lớn, các nơ-ron bão hòa và gradient biến mất. Nếu quá nhỏ, tín hiệu sẽ tắt dần. Khởi tạo He chia tỷ lệ các trọng số ngẫu nhiên theo sqrt(2 / fan_in), duy trì phương sai qua các lớp."
+      },
+      "forwardPass": {
+        "title": "Lan truyền Xuôi",
+        "description": "Lan truyền xuôi rất đơn giản: với mỗi lớp, tính z = W·x + b, sau đó áp dụng hàm kích hoạt a = f(z). Chúng tôi lưu cả z và a vì lan truyền ngược cần chúng sau này."
+      },
+      "backpropOutput": {
+        "title": "Lan truyền Ngược — Lớp Đầu ra",
+        "description": "Quy tắc chuỗi cho chúng ta biết mỗi trọng số đóng góp bao nhiêu vào lỗi. Đối với lớp đầu ra: δ = (a - y) ⊙ f'(z). Đây là tín hiệu lỗi mà chúng ta sẽ gửi ngược qua mạng."
+      },
+      "backpropHidden": {
+        "title": "Lan truyền Ngược — Các Lớp Ẩn",
+        "description": "Đối với các lớp ẩn, chúng ta không thể so sánh trực tiếp với mục tiêu. Thay vào đó, chúng ta \"lan truyền lỗi\" ngược: δ_l = (W_{l+1}ᵀ · δ_{l+1}) ⊙ f'(z_l). Ma trận chuyển vị của trọng số lớp tiếp theo gửi tín hiệu lỗi ngược qua các kết nối."
+      },
+      "gradientDescent": {
+        "title": "Cập nhật Gradient Descent",
+        "description": "Cuối cùng, chúng ta điều chỉnh mỗi trọng số theo hướng giảm thiểu mất mát. Gradient ∂Loss/∂W là tích ngoài của tín hiệu lỗi δ và kích hoạt a của lớp trước đó. Chúng ta bước xuống dốc: W_new = W_old - lr · gradient."
+      }
+    }
+  }
+}

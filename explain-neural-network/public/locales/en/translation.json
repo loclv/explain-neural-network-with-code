@@ -1,0 +1,99 @@
+{
+  "app": {
+    "title": "Neural Network from Scratch",
+    "subtitle": "An interactive visualization of a 2-4-1 feedforward network trained on XOR. Green connections are positive weights, red are negative.",
+    "whatIsThis": "What is this?",
+    "description1": "A <1>neural network</1> is a tiny computer brain made of virtual neurons. Each neuron receives numbers, multiplies them by little knobs called <2>weights</2>, adds a bias, and passes the result through an activation function that decides whether the neuron should \"fire\" strongly or stay quiet.",
+    "description2": "This demo shows a network with <1>2 inputs</1>, <2>4 hidden neurons</2>, and <3>1 output</3>. It is learning the XOR pattern — a classic puzzle that a simple line cannot solve. You can drag the sliders to give the brain any two numbers, press <4>Train on XOR</4> to let it practice, and watch the weights change colour and thickness as they find the right answer.",
+    "description3": "Everything you see is computed right here in your browser using the same algorithm as the Zig implementation in the parent repository. No cloud, no library — just loops, matrices, and a little patience."
+  },
+  "network": {
+    "architecture": "Network Architecture",
+    "positiveWeight": "Positive weight",
+    "negativeWeight": "Negative weight",
+    "input": "Input",
+    "hidden": "Hidden (4)",
+    "output": "Output"
+  },
+  "controls": {
+    "interactiveInput": "Interactive Input",
+    "howItWorks": "How it works (for kids!)",
+    "howItWorksLine1": "Imagine a tiny robot brain with 2 ears and 1 mouth.",
+    "howItWorksLine2": "The <1>two sliders</1> are like dimmer switches. Slide them to 0 (off) or 1 (on) or anything in between.",
+    "howItWorksLine3": "The <1>brain</1> sees the two numbers and makes a guess. The guess appears in the blue box below.",
+    "howItWorksLine4": "A guess near <1>0</1> means the brain thinks \"off.\" A guess near <1>1</1> means it thinks \"on.\"",
+    "howItWorksLine5": "When you press <1>Train on XOR</1>, the brain practices with flashcards until it learns the secret pattern!",
+    "inputX": "Input x{{idx}}: {{val}}",
+    "prediction": "Prediction",
+    "class0": "Class: 0",
+    "class1": "Class: 1",
+    "trainOnXor": "Train on XOR",
+    "trainingEpochs": "Training… {{count}} epochs",
+    "reset": "Reset"
+  },
+  "xor": {
+    "truthTable": "XOR Truth Table",
+    "target": "Target: {{value}}"
+  },
+  "loss": {
+    "title": "Training Loss",
+    "epoch": "Epoch"
+  },
+  "matrixDemo": {
+    "title": "How Matrix Multiplication Works",
+    "subtitle": "A neural network multiplies matrices just like this. Watch each row meet each column to make one answer cell.",
+    "matrixA": "Matrix A",
+    "matrixB": "Matrix B",
+    "result": "Answer",
+    "allDone": "All done! Every answer cell is filled.",
+    "cellComplete": "Cell ({{row}}, {{col}}) = {{value}} — saved!",
+    "computing": "Row {{row}} · Col {{col}}:  {{a}} × {{b}}  (so far {{partial}})",
+    "prev": "Back",
+    "next": "Next",
+    "play": "Play",
+    "pause": "Pause",
+    "reset": "Restart"
+  },
+  "weights": {
+    "title": "Weight Matrices",
+    "layerWeights": "Layer {{idx}} weights ({{rows}} × {{cols}})"
+  },
+  "code": {
+    "title": "How It Works",
+    "expandSection": "Expand section",
+    "blocks": {
+      "matrixDefinition": {
+        "title": "Matrix Definition",
+        "description": "A neural network is built on matrices. We store each matrix as a flat Float32Array in row-major order: element (r, c) is at index r * cols + c. This matches the Zig implementation exactly."
+      },
+      "matrixMultiplication": {
+        "title": "Matrix Multiplication",
+        "description": "The heart of a neural network is the dot product: z = W · x. This triple-nested loop multiplies an (m×n) matrix by an (n×p) matrix, producing an (m×p) result. No BLAS, no SIMD—just the raw algorithm so you can trace every multiplication."
+      },
+      "activationFunctions": {
+        "title": "Activation Functions",
+        "description": "Activation functions introduce non-linearity. Without them, stacking layers would be equivalent to a single linear transform. We use Leaky ReLU for hidden layers (prevents \"dead neurons\") and sigmoid for the output layer (gives a probability between 0 and 1)."
+      },
+      "heInitialisation": {
+        "title": "He Initialisation",
+        "description": "Weight initialisation matters. If weights are too large, neurons saturate and gradients vanish. If too small, signals die out. He initialisation scales random weights by sqrt(2 / fan_in), preserving variance across layers."
+      },
+      "forwardPass": {
+        "title": "Forward Pass",
+        "description": "Forward propagation is simple: for each layer, compute z = W·x + b, then apply the activation function a = f(z). We cache both z and a because backpropagation needs them later."
+      },
+      "backpropOutput": {
+        "title": "Backpropagation — Output Layer",
+        "description": "The chain rule tells us how much each weight contributed to the error. For the output layer: δ = (a - y) ⊙ f'(z). This is the error signal we will send backwards through the network."
+      },
+      "backpropHidden": {
+        "title": "Backpropagation — Hidden Layers",
+        "description": "For hidden layers, we cannot compare directly to the target. Instead we \"propagate the blame\" backwards: δ_l = (W_{l+1}ᵀ · δ_{l+1}) ⊙ f'(z_l). The transpose of the next layer's weights sends the error signal back through the connections."
+      },
+      "gradientDescent": {
+        "title": "Gradient Descent Update",
+        "description": "Finally, we adjust every weight in the direction that reduces loss. The gradient ∂Loss/∂W is the outer product of the error signal δ and the previous layer's activation a. We step downhill: W_new = W_old - lr · gradient."
+      }
+    }
+  }
+}
