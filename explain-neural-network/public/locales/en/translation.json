@@ -54,6 +54,23 @@
     "pause": "Pause",
     "reset": "Restart"
   },
+  "whyMatrix": {
+    "title": "Why Does a Brain Need a Matrix?",
+    "p1": "Imagine you have a group of friends passing notes in class. Each friend reads the note, changes it a little, and passes it to the next friend. A neural network works the same way: data flows from one layer of 'neurons' to the next, and each connection has a special number called a weight that decides how much the note changes.",
+    "p2": "The problem? There can be hundreds or thousands of these connections. Writing them one by one would take forever. A matrix is just a neat grid of numbers — like a spreadsheet or a tic-tac-toe board, but bigger. Instead of tracking every connection separately, we pack all the weights into one grid.",
+    "gridTitle": "Hover over each friend to see how loudly they whisper:",
+    "friends": ["Alice", "Bob", "Carol", "David", "Eve", "Frank"],
+    "strength": "{{name}} whispers with strength {{value}} —",
+    "strong": "loud and clear!",
+    "medium": "normal volume.",
+    "weak": "barely a whisper.",
+    "p3": "When the brain needs to pass a message forward, it multiplies the whole grid at once. That is called a dot product. It is like every neuron in the next layer asking every neuron in the current layer, 'How important is your number?' — all at the same time.",
+    "analogyTitle": "The two most important matrix moves:",
+    "analogy1": "Dot product (×) — pass the note through every friend at once.",
+    "analogy2": "Add (+) — give everyone a little head-start called a bias.",
+    "analogy3": "Apply a function — decide whether to shout or stay quiet (activation).",
+    "p4": "When the brain makes a mistake, it runs the same math backwards to figure out which weights to blame. Because everything lives in matrices, the computer can reverse the whole grid in one go. That is how a neural network learns."
+  },
   "weights": {
     "title": "Weight Matrices",
     "layerWeights": "Layer {{idx}} weights ({{rows}} × {{cols}})"

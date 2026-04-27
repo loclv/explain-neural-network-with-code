@@ -54,6 +54,23 @@
     "pause": "Dừng",
     "reset": "Làm lại"
   },
+  "whyMatrix": {
+    "title": "Tại Sao Bộ Não Cần Ma Trận?",
+    "p1": "Hãy tưởng tượng một nhóm bạn truyền giấy nhắn trong lớp. Mỗi bạn đọc mẩu giấy, thay đổi nó một chút, rồi chuyền cho bạn tiếp theo. Mạng nơ-ron hoạt động y hệt như vậy: dữ liệu chảy từ lớp nơ-ron này sang lớp khác, và mỗi kết nối có một con số đặc biệt gọi là trọng số quyết định mẩu giấy bị thay đổi bao nhiêu.",
+    "p2": "Vấn đề là có thể có hàng trăm hoặc hàng nghìn kết nối như vậy. Viết từng cái một sẽ mãi mãi không xong. Ma trận chỉ đơn giản là một lưới số gọn gàng — như bảng tính hay bàn cờ caro, nhưng lớn hơn. Thay vì theo dõi từng kết nối riêng lẻ, ta nhét tất cả trọng số vào một lưới duy nhất.",
+    "gridTitle": "Di chuột qua từng bạn để xem họ thì thầm to hay nhỏ:",
+    "friends": ["Alice", "Bob", "Carol", "David", "Eve", "Frank"],
+    "strength": "{{name}} thì thầm với cường độ {{value}} —",
+    "strong": "to và rõ ràng!",
+    "medium": "bình thường.",
+    "weak": "gần như không nghe thấy.",
+    "p3": "Khi bộ não cần truyền tin đi, nó nhân cả lưới một lúc. Đó gọi là tích vô hướng (dot product). Giống như mỗi nơ-ron ở lớp sau hỏi mọi nơ-ron ở lớp trước: 'Con số của bạn quan trọng thế nào?' — tất cả cùng một lúc.",
+    "analogyTitle": "Hai phép ma trận quan trọng nhất:",
+    "analogy1": "Tích vô hướng (×) — truyền giấy nhắn qua mọi bạn cùng lúc.",
+    "analogy2": "Cộng (+) — cho mỗi người một chút ưu tiên gọi là độ lệch (bias).",
+    "analogy3": "Áp hàm số — quyết định nên hét to hay im lặng (hàm kích hoạt).",
+    "p4": "Khi bộ não mắc lỗi, nó chạy phép toán ngược lại để tìm ra trọng số nào đáng bị đổ lỗi. Vì mọi thứ đều nằm trong ma trận, máy tính có thể đảo ngược cả lưới trong một lần. Đó là cách mạng nơ-ron học hỏi."
+  },
   "weights": {
     "title": "Ma trận Trọng số",
     "layerWeights": "Trọng số Lớp {{idx}} ({{rows}} × {{cols}})"
