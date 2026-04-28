@@ -54,6 +54,16 @@
     "pause": "Dừng",
     "reset": "Làm lại"
   },
+  "matrix3d": {
+    "title": "Nhân Ma Trận Trong Không Gian 3-D",
+    "subtitle": "Ma trận có thể kéo dãn, xoay, hoặc bóp méo cả một đám điểm 3-D. Kéo thẳng đứng để xoay cảnh, chọn một mẫu có sẵn, hoặc sửa trực tiếp từng ô ma trận và quan sát khối lập phương biến đổi tức thì.",
+    "dragHint": "Kéo theo chiều dọc để xoay cảnh",
+    "svgLabel": "Xem trước biến đổi khối lập phương 3-D",
+    "svgTitle": "Khối lập phương đã biến đổi",
+    "matrixLabel": "Ma Trận Biến Đổi",
+    "formulaTitle": "Công thức trực tiếp",
+    "explanation": "Trong mạng nơ-ron, mỗi lớp chính là một ma trận giống như ma trận này. Thay vì di chuyển một khối lập phương, ma trận di chuyển một vector kích hoạt của các nơ-ron từ không gian lớp này sang lớp tiếp theo. Đó là lý do hiểu ma trận trong 3-D giúp phép toán ẩn bên trong trở nên cụ thể."
+  },
   "whyMatrix": {
     "title": "Tại Sao Bộ Não Cần Ma Trận?",
     "p1": "Hãy tưởng tượng một nhóm bạn truyền giấy nhắn trong lớp. Mỗi bạn đọc mẩu giấy, thay đổi nó một chút, rồi chuyền cho bạn tiếp theo. Mạng nơ-ron hoạt động y hệt như vậy: dữ liệu chảy từ lớp nơ-ron này sang lớp khác, và mỗi kết nối có một con số đặc biệt gọi là trọng số quyết định mẩu giấy bị thay đổi bao nhiêu.",

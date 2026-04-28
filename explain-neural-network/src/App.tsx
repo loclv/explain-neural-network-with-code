@@ -15,6 +15,7 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import CodeExplorer from "./components/CodeExplorer";
+import Matrix3DWorld from "./components/Matrix3DWorld";
 import MatrixMultiplyDemo from "./components/MatrixMultiplyDemo";
 import NetworkDiagram from "./components/NetworkDiagram";
 import WhyMatrix from "./components/WhyMatrix";
@@ -165,6 +166,8 @@ function App() {
 				<WhyMatrix />
 
 				<MatrixMultiplyDemo />
+
+				<Matrix3DWorld />
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
 					{/* Network diagram */}

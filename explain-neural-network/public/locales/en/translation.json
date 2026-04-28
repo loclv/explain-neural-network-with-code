@@ -54,6 +54,16 @@
     "pause": "Pause",
     "reset": "Restart"
   },
+  "matrix3d": {
+    "title": "Matrix Multiplication in 3-D Space",
+    "subtitle": "A matrix can stretch, rotate, or skew an entire cloud of 3-D points. Drag the scene to orbit, pick a preset, or edit the matrix cells directly and watch the cube transform instantly.",
+    "dragHint": "Drag vertically to rotate the scene",
+    "svgLabel": "3-D cube transformation preview",
+    "svgTitle": "Transformed cube",
+    "matrixLabel": "Transformation Matrix",
+    "formulaTitle": "Live formula",
+    "explanation": "In a neural network, every layer is a matrix just like this one. Instead of moving a cube, the matrix moves a vector of neuron activations from one layer space to the next. That is why understanding matrices in 3-D makes the hidden math feel concrete."
+  },
   "whyMatrix": {
     "title": "Why Does a Brain Need a Matrix?",
     "p1": "Imagine you have a group of friends passing notes in class. Each friend reads the note, changes it a little, and passes it to the next friend. A neural network works the same way: data flows from one layer of 'neurons' to the next, and each connection has a special number called a weight that decides how much the note changes.",
