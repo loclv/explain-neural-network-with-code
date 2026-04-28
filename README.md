@@ -1,6 +1,6 @@
 # Neural Network from Scratch in Zig
 
-A minimal, fully-connected feedforward neural network implemented from scratch in Zig. No external dependencies. No GPU code. Just matrices, backpropagation, and a working XOR solver.
+A minimal, fully-connected feedforward neural network implemented from scratch in Zig. No external dependencies. No GPU code. Just matrices, backpropagation, and two working demos: a 10×10 grid point counter and the classic XOR solver.
 
 ## Features
 
@@ -19,10 +19,10 @@ A minimal, fully-connected feedforward neural network implemented from scratch i
 ## Quick Start
 
 ```bash
-# Run the XOR demo
+# Run the 10×10 grid point-counter demo
 zig build run
 
-# Run all tests
+# Run all tests (includes XOR convergence test)
 zig build test
 ```
 
@@ -31,7 +31,7 @@ zig build test
 ```
 src/
   root.zig      # Library: Matrix, Layer, NeuralNetwork, activation functions
-  main.zig      # CLI demo: trains 2-4-1 network on XOR
+  main.zig      # CLI demo: trains 100-64-1 network on 10×10 grid point counting
 build.zig       # Build script
 build.zig.zon   # Package manifest
 ```
@@ -61,7 +61,8 @@ Matrix.apply(&out, a, &my_activation);
 ### NeuralNetwork
 
 ```zig
-const layer_sizes = [_]usize{ 2, 4, 1 };
+// 10×10 grid point counter (100 inputs, 64 hidden, 1 output)
+const layer_sizes = [_]usize{ 100, 64, 1 };
 var nn = try NeuralNetwork.init(allocator, &layer_sizes);
 defer nn.deinit();
 
@@ -70,6 +71,8 @@ nn.randomize(rng);
 const output = nn.predict(input);
 try nn.train(&inputs, &targets, epochs, learning_rate);
 ```
+
+The test suite also includes a 2-4-1 XOR convergence test (`zig build test`).
 
 ### Activation Functions
 

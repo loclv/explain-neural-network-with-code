@@ -12,7 +12,8 @@
 - [x] Add He weight initialization via randomization
 - [x] Add matrix math unit test
 - [x] Add end-to-end XOR convergence test
-- [x] Add CLI demo in `main.zig`
+- [x] Add CLI demo in `main.zig` (XOR)
+- [x] Replace CLI demo with 10×10 grid point-counter (1 point vs 2 points)
 - [x] Fix Zig 0.16.0 compatibility (function pointer types, `std.Random` passing)
 - [x] Fix prediction evaluation order (predictions were overwritten by subsequent calls)
 - [x] Create README.md, TASKS.md, ARCHITECTURE.md

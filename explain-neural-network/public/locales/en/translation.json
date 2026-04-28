@@ -35,6 +35,18 @@
     "truthTable": "XOR Truth Table",
     "target": "Target: {{value}}"
   },
+  "grid": {
+    "title": "10×10 Grid Point Counter",
+    "pointsCount": "{{count}} point(s)",
+    "random1": "Random 1 point",
+    "random2": "Random 2 points",
+    "clear": "Clear grid",
+    "prediction": "Prediction",
+    "target": "Target: {{value}}",
+    "train": "Train on Grid",
+    "training": "Training… {{count}} epochs",
+    "loss": "Loss: {{value}}"
+  },
   "loss": {
     "title": "Training Loss",
     "epoch": "Epoch"

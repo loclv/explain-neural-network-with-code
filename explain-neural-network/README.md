@@ -1,6 +1,10 @@
 # Neural Network Visualiser
 
-An interactive web application that explains how a feedforward neural network learns the XOR problem. Built with React, TypeScript, Tailwind CSS, and Rsbuild.
+An interactive web application that explains how a feedforward neural network learns from scratch. Built with React, TypeScript, Tailwind CSS, and Rsbuild.
+
+It includes two demos:
+- **XOR** — the classic 2-4-1 network with live sliders, truth table, and weight inspector
+- **10×10 Grid Point Counter** — a 100-64-1 network that learns to count whether a grid contains 1 or 2 random points
 
 ## What it shows
 
@@ -15,16 +19,22 @@ This demo implements the exact same algorithm as the Zig neural network in the p
 - **Loss curve** — a canvas-drawn graph of mean-squared error over time
 - **Weight matrices** — live tables showing every weight value, colour-coded positive (green) and negative (red)
 - **Code explorer** — annotated source-code panels that walk through matrix multiplication, activation functions, He initialisation, forward pass, backpropagation, and gradient descent
+- **10×10 grid counter** — click cells to place 1 or 2 points on a grid and watch a 100-64-1 network learn to count them
 
 ## The algorithm
 
-- **Architecture**: 2-4-1 fully-connected feedforward network
+Both demos use the same core algorithm:
+
 - **Hidden activation**: Leaky ReLU (slope 0.01 for negative inputs)
 - **Output activation**: Sigmoid (probability-like output in (0, 1))
 - **Initialisation**: He uniform (scaled by sqrt(2 / fan_in))
 - **Loss**: Mean squared error
-- **Optimiser**: Stochastic gradient descent, learning rate 0.1
-- **Training**: 10,000 epochs on the four XOR examples, updating weights after every example
+- **Optimiser**: Stochastic gradient descent
+
+| Demo | Architecture | Dataset | LR | Epochs |
+|------|-------------|---------|-----|--------|
+| XOR | 2-4-1 | 4 XOR examples | 0.1 | 10,000 |
+| Grid Counter | 100-64-1 | Random 10×10 grids (1 vs 2 points) | 0.01 | 500 |
 
 ## Why XOR?
 

@@ -15,6 +15,7 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import CodeExplorer from "./components/CodeExplorer";
+import GridCounter from "./components/GridCounter";
 import Matrix3DWorld from "./components/Matrix3DWorld";
 import MatrixMultiplyDemo from "./components/MatrixMultiplyDemo";
 import NetworkDiagram from "./components/NetworkDiagram";
@@ -36,8 +37,14 @@ const LR = 0.1;
 
 function App() {
 	const { t, i18n } = useTranslation();
+	const [mode, setMode] = useState<"xor" | "grid">("xor");
 	const [network, setNetwork] = useState(() => {
 		const net = createNetwork([2, 4, 1]);
+		randomizeNetwork(net, 42);
+		return net;
+	});
+	const [gridNetwork, setGridNetwork] = useState(() => {
+		const net = createNetwork([100, 64, 1]);
 		randomizeNetwork(net, 42);
 		return net;
 	});
@@ -114,6 +121,28 @@ function App() {
 						<p className="text-slate-600">{t("app.subtitle")}</p>
 					</div>
 					<div className="flex gap-2">
+						<button
+							type="button"
+							onClick={() => setMode("xor")}
+							className={`px-3 py-1 rounded text-sm font-medium transition ${
+								mode === "xor"
+									? "bg-blue-600 text-white"
+									: "bg-slate-200 text-slate-700 hover:bg-slate-300"
+							}`}
+						>
+							XOR
+						</button>
+						<button
+							type="button"
+							onClick={() => setMode("grid")}
+							className={`px-3 py-1 rounded text-sm font-medium transition ${
+								mode === "grid"
+									? "bg-blue-600 text-white"
+									: "bg-slate-200 text-slate-700 hover:bg-slate-300"
+							}`}
+						>
+							Grid
+						</button>
 						<button
 							type="button"
 							onClick={() => i18n.changeLanguage("en")}
@@ -351,6 +380,15 @@ function App() {
 						))}
 					</div>
 				</div>
+
+				{mode === "grid" && (
+					<GridCounter
+						network={gridNetwork}
+						onNetworkChange={(net) =>
+							setGridNetwork({ layers: net.layers.map((l) => ({ ...l })) })
+						}
+					/>
+				)}
 
 				{/* Code explorer */}
 				<div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">

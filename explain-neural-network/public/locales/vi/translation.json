@@ -35,6 +35,18 @@
     "truthTable": "Bảng Chân lý XOR",
     "target": "Mục tiêu: {{value}}"
   },
+  "grid": {
+    "title": "Bộ Đếm Điểm Lưới 10×10",
+    "pointsCount": "{{count}} điểm",
+    "random1": "Ngẫu nhiên 1 điểm",
+    "random2": "Ngẫu nhiên 2 điểm",
+    "clear": "Xóa lưới",
+    "prediction": "Dự đoán",
+    "target": "Mục tiêu: {{value}}",
+    "train": "Huấn luyện Lưới",
+    "training": "Đang huấn luyện… {{count}} epoch",
+    "loss": "Mất mát: {{value}}"
+  },
   "loss": {
     "title": "Mất mát Huấn luyện",
     "epoch": "Epoch"
