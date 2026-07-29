@@ -115,30 +115,30 @@ export default function MatrixMultiplyDemo() {
     const base =
       'w-12 h-12 flex items-center justify-center rounded-lg font-mono text-lg font-bold transition-all duration-300 border-2 ';
     if (matrix === 'C') {
-      if (isDone) return base + 'bg-slate-100 text-slate-700 border-slate-200';
+      if (isDone) return `${base}bg-slate-100 text-slate-700 border-slate-200`;
       if (r === step.i && c === step.j && step.done)
-        return base + COL_COLORS[c] + ' border-current scale-110 shadow-md';
+        return `${base + COL_COLORS[c]} border-current scale-110 shadow-md`;
       if (r === step.i && c === step.j)
-        return base + COL_COLORS[c] + ' border-current';
+        return `${base + COL_COLORS[c]} border-current`;
       if (step.done && (r < step.i || (r === step.i && c < step.j)))
-        return base + 'bg-slate-100 text-slate-700 border-slate-200';
-      return base + 'bg-slate-50 text-slate-300 border-slate-100';
+        return `${base}bg-slate-100 text-slate-700 border-slate-200`;
+      return `${base}bg-slate-50 text-slate-300 border-slate-100`;
     }
     if (matrix === 'A') {
       const active = !isDone && r === step.i;
       if (active && c <= step.k && !step.done)
-        return base + ROW_COLORS[r] + ' border-current scale-105';
+        return `${base + ROW_COLORS[r]} border-current scale-105`;
       if (active || (isDone && r === step.i))
-        return base + ROW_COLORS[r] + ' border-current';
-      return base + 'bg-slate-50 text-slate-400 border-slate-100';
+        return `${base + ROW_COLORS[r]} border-current`;
+      return `${base}bg-slate-50 text-slate-400 border-slate-100`;
     }
     // matrix === 'B'
     const active = !isDone && c === step.j;
     if (active && r <= step.k && !step.done)
-      return base + COL_COLORS[c] + ' border-current scale-105';
+      return `${base + COL_COLORS[c]} border-current scale-105`;
     if (active || (isDone && c === step.j))
-      return base + COL_COLORS[c] + ' border-current';
-    return base + 'bg-slate-50 text-slate-400 border-slate-100';
+      return `${base + COL_COLORS[c]} border-current`;
+    return `${base}bg-slate-50 text-slate-400 border-slate-100`;
   }
 
   function showArrowA(r: number, c: number): boolean {
