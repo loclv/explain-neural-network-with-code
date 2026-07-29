@@ -17,11 +17,14 @@
 - [x] Fix Zig 0.16.0 compatibility (function pointer types, `std.Random` passing)
 - [x] Fix prediction evaluation order (predictions were overwritten by subsequent calls)
 - [x] Create README.md, TASKS.md, ARCHITECTURE.md
+- [x] Clean up dead code: remove duplicate `applyEach`, unused `forward` method
+- [x] Add momentum SGD optimizer to both Zig and TypeScript engines
+- [x] Improve grid counter training convergence (momentum 0.9, 2000 epochs, LR 0.05)
 
 ## Backlog / Future Work
 
-- [ ] Mini-batch and full-batch gradient descent
-- [ ] Optimizers: momentum, RMSprop, Adam
+- [ ] Full-batch gradient descent
+- [ ] Optimizers: RMSprop, Adam
 - [ ] Softmax activation + cross-entropy loss for multi-class
 - [ ] Weight serialization (save/load from file)
 - [ ] L1/L2 regularization

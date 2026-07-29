@@ -62,7 +62,7 @@ pub fn main(init: std.process.Init) !void {
     }
 
     try w.print("Training (1 point = 0.0, 2 points = 1.0)...\n", .{});
-    try net.train(inputs.items, targets.items, 500, 0.01);
+    try net.train(inputs.items, targets.items, 2000, 0.05, 0.9);
 
     try w.print("\nPredictions on new random grids:\n", .{});
     for (0..TESTS) |i| {

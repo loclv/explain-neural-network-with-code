@@ -78,14 +78,6 @@ pub const Matrix = struct {
         }
     }
 
-    pub fn applyEach(out: *Matrix, a: Matrix, func: *const fn (f32) f32) void {
-        std.debug.assert(out.rows == a.rows);
-        std.debug.assert(out.cols == a.cols);
-        for (0..a.data.len) |i| {
-            out.data[i] = func(a.data[i]);
-        }
-    }
-
     pub fn copy(out: *Matrix, a: Matrix) void {
         std.debug.assert(out.rows == a.rows);
         std.debug.assert(out.cols == a.cols);
@@ -110,7 +102,7 @@ pub const Matrix = struct {
         }
     }
 
-    pub fn print(self: Matrix, writer: *std.Io.Writer) !void {
+    pub fn print(self: Matrix, writer: anytype) !void {
         for (0..self.rows) |r| {
             for (0..self.cols) |c| {
                 try writer.print("{d:8.4} ", .{self.get(r, c)});
@@ -146,6 +138,8 @@ pub const Layer = struct {
     activation: Matrix,
     weight_gradients: Matrix,
     bias_gradients: Matrix,
+    weight_velocity: Matrix,
+    bias_velocity: Matrix,
 
     pub fn init(allocator: std.mem.Allocator, input_size: usize, output_size: usize) !Layer {
         return .{
@@ -155,6 +149,8 @@ pub const Layer = struct {
             .activation = try Matrix.init(allocator, output_size, 1),
             .weight_gradients = try Matrix.init(allocator, output_size, input_size),
             .bias_gradients = try Matrix.init(allocator, output_size, 1),
+            .weight_velocity = try Matrix.init(allocator, output_size, input_size),
+            .bias_velocity = try Matrix.init(allocator, output_size, 1),
         };
     }
 
@@ -165,18 +161,14 @@ pub const Layer = struct {
         self.activation.deinit(allocator);
         self.weight_gradients.deinit(allocator);
         self.bias_gradients.deinit(allocator);
+        self.weight_velocity.deinit(allocator);
+        self.bias_velocity.deinit(allocator);
     }
 
     pub fn randomize(self: *Layer, rng: std.Random) void {
         const scale = @sqrt(2.0 / @as(f32, @floatFromInt(self.weights.cols)));
         self.weights.randomize(rng, scale);
         self.biases.randomize(rng, scale);
-    }
-
-    pub fn forward(self: *Layer, input: Matrix) void {
-        Matrix.dot(&self.pre_activation, self.weights, input);
-        Matrix.add(&self.pre_activation, self.pre_activation, self.biases);
-        Matrix.apply(&self.activation, self.pre_activation, relu);
     }
 
     pub fn forwardWithActivation(self: *Layer, input: Matrix, act_fn: *const fn (f32) f32) void {
@@ -229,6 +221,7 @@ pub const NeuralNetwork = struct {
         targets: []const Matrix,
         epochs: usize,
         learning_rate: f32,
+        momentum: f32,
     ) !void {
         std.debug.assert(inputs.len == targets.len);
 
@@ -291,10 +284,12 @@ pub const NeuralNetwork = struct {
                     Matrix.dot(&layer.weight_gradients, layer.bias_gradients, p_t);
 
                     for (0..layer.weights.data.len) |i| {
-                        layer.weights.data[i] -= learning_rate * layer.weight_gradients.data[i];
+                        layer.weight_velocity.data[i] = momentum * layer.weight_velocity.data[i] - learning_rate * layer.weight_gradients.data[i];
+                        layer.weights.data[i] += layer.weight_velocity.data[i];
                     }
                     for (0..layer.biases.data.len) |i| {
-                        layer.biases.data[i] -= learning_rate * layer.bias_gradients.data[i];
+                        layer.bias_velocity.data[i] = momentum * layer.bias_velocity.data[i] - learning_rate * layer.bias_gradients.data[i];
+                        layer.biases.data[i] += layer.bias_velocity.data[i];
                     }
 
                     prev_act = layer.activation;
@@ -372,7 +367,7 @@ test "NeuralNetwork XOR" {
     const inputs = [_]Matrix{ x0, x1, x2, x3 };
     const targets = [_]Matrix{ y0, y1, y2, y3 };
 
-    try nn.train(&inputs, &targets, 10000, 0.1);
+    try nn.train(&inputs, &targets, 10000, 0.1, 0.9);
 
     var pred = nn.predict(x0);
     try std.testing.expect(pred.get(0, 0) < 0.3);
