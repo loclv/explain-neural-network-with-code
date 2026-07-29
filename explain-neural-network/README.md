@@ -29,12 +29,12 @@ Both demos use the same core algorithm:
 - **Output activation**: Sigmoid (probability-like output in (0, 1))
 - **Initialisation**: He uniform (scaled by sqrt(2 / fan_in))
 - **Loss**: Mean squared error
-- **Optimiser**: Stochastic gradient descent
+- **Optimiser**: Stochastic gradient descent with momentum (0.9)
 
-| Demo | Architecture | Dataset | LR | Epochs |
-|------|-------------|---------|-----|--------|
-| XOR | 2-4-1 | 4 XOR examples | 0.1 | 10,000 |
-| Grid Counter | 100-64-1 | Random 10×10 grids (1 vs 2 points) | 0.01 | 500 |
+| Demo | Architecture | Dataset | LR | Epochs | Momentum |
+|------|-------------|---------|-----|--------|----------|
+| XOR | 2-4-1 | 4 XOR examples | 0.1 | 10,000 | 0.9 |
+| Grid Counter | 100-64-1 | Random 10×10 grids (1 vs 2 points) | 0.05 | 2,000 | 0.9 |) | 0.01 | 500 |
 
 ## Why XOR?
 

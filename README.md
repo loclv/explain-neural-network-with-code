@@ -69,7 +69,7 @@ defer nn.deinit();
 nn.randomize(rng);
 
 const output = nn.predict(input);
-try nn.train(&inputs, &targets, epochs, learning_rate);
+try nn.train(&inputs, &targets, epochs, learning_rate, momentum);rate);
 ```
 
 The test suite also includes a 2-4-1 XOR convergence test (`zig build test`).
@@ -88,12 +88,12 @@ pub fn sigmoid_derivative(x: f32) f32;
 - Manual memory management: Every `Matrix` and `NeuralNetwork` requires an allocator and a matching `deinit()` call.
 - Pre-allocated buffers: The training loop reuses layer-internal gradient buffers to minimize allocations.
 - Fixed architecture: Network topology is set at init time. The last layer always uses sigmoid; all hidden layers use Leaky ReLU.
-- Single-sample SGD: `train()` updates weights after every example. No batching, no momentum, no Adam.
+- Single-sample SGD with momentum: `train()` updates weights after every example. No batching, no Adam.
 
 ## Limitations / Future Work
 
 - No mini-batch or full-batch gradient descent
-- No optimizer extensions (momentum, Adam, RMSprop)
+- No optimizer extensions (Adam, RMSprop)
 - No softmax / cross-entropy (binary sigmoid only)
 - No serialization (save/load weights)
 - No dropout, batch norm, or regularization
