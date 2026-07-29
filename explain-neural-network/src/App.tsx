@@ -76,10 +76,18 @@ function App() {
     const batchSize = 100;
 
     const step = () => {
-			const losses: number[] = [];
-			train(net, xorInputs, xorTargets, batchSize, LR, (_epoch, avgLoss) => {
-				losses.push(avgLoss);
-			}, 0.9);
+      const losses: number[] = [];
+      train(
+        net,
+        xorInputs,
+        xorTargets,
+        batchSize,
+        LR,
+        (_epoch, avgLoss) => {
+          losses.push(avgLoss);
+        },
+        0.9,
+      );
       currentEpoch += batchSize;
 
       setNetwork({ layers: net.layers.map((l) => ({ ...l })) });

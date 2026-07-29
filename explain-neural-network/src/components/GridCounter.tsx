@@ -64,26 +64,34 @@ export default function GridCounter({ network, onNetworkChange }: Props) {
     const rng = gridRng(42);
     const { inputs, targets } = generateGridSamples(rng, 200);
 
-		const batchSize = 100;
-		let currentEpoch = 0;
+    const batchSize = 100;
+    let currentEpoch = 0;
 
-		const step = () => {
-			const losses: number[] = [];
-			train(network, inputs, targets, batchSize, 0.05, (_epoch, avgLoss) => {
-				losses.push(avgLoss);
-			}, 0.9);
-			currentEpoch += batchSize;
-			setEpochsDone(currentEpoch);
-			setLossHistory((prev) => [...prev, ...losses]);
-			onNetworkChange({ layers: network.layers.map((l) => ({ ...l })) });
-			updatePrediction(grid);
+    const step = () => {
+      const losses: number[] = [];
+      train(
+        network,
+        inputs,
+        targets,
+        batchSize,
+        0.05,
+        (_epoch, avgLoss) => {
+          losses.push(avgLoss);
+        },
+        0.9,
+      );
+      currentEpoch += batchSize;
+      setEpochsDone(currentEpoch);
+      setLossHistory((prev) => [...prev, ...losses]);
+      onNetworkChange({ layers: network.layers.map((l) => ({ ...l })) });
+      updatePrediction(grid);
 
-			if (currentEpoch < 2000) {
-				requestAnimationFrame(step);
-			} else {
-				setTraining(false);
-			}
-		};
+      if (currentEpoch < 2000) {
+        requestAnimationFrame(step);
+      } else {
+        setTraining(false);
+      }
+    };
 
     requestAnimationFrame(step);
   };

@@ -154,28 +154,28 @@ export function sigmoidDeriv(x: number): number {
 // ---------------------------------------------------------------------------
 
 export interface Layer {
-	weights: Matrix;
-	biases: Matrix;
-	preActivation: Matrix;
-	activation: Matrix;
-	weightGradients: Matrix;
-	biasGradients: Matrix;
-	weightVelocity: Matrix;
-	biasVelocity: Matrix;
+  weights: Matrix;
+  biases: Matrix;
+  preActivation: Matrix;
+  activation: Matrix;
+  weightGradients: Matrix;
+  biasGradients: Matrix;
+  weightVelocity: Matrix;
+  biasVelocity: Matrix;
 }
 
 /** Allocate a layer with the given input/output dimensions. */
 export function createLayer(inputSize: number, outputSize: number): Layer {
-	return {
-		weights: mat(outputSize, inputSize),
-		biases: mat(outputSize, 1),
-		preActivation: mat(outputSize, 1),
-		activation: mat(outputSize, 1),
-		weightGradients: mat(outputSize, inputSize),
-		biasGradients: mat(outputSize, 1),
-		weightVelocity: mat(outputSize, inputSize),
-		biasVelocity: mat(outputSize, 1),
-	};
+  return {
+    weights: mat(outputSize, inputSize),
+    biases: mat(outputSize, 1),
+    preActivation: mat(outputSize, 1),
+    activation: mat(outputSize, 1),
+    weightGradients: mat(outputSize, inputSize),
+    biasGradients: mat(outputSize, 1),
+    weightVelocity: mat(outputSize, inputSize),
+    biasVelocity: mat(outputSize, 1),
+  };
 }
 
 /**
@@ -279,11 +279,11 @@ export function predict(network: NeuralNetwork, input: Matrix): Matrix {
  *   4. UPDATE    — move weights in the direction that reduces loss.
  */
 export function trainStep(
-	network: NeuralNetwork,
-	input: Matrix,
-	target: Matrix,
-	learningRate: number,
-	momentum = 0,
+  network: NeuralNetwork,
+  input: Matrix,
+  target: Matrix,
+  learningRate: number,
+  momentum = 0,
 ): number {
   // ========== 1. FORWARD PASS ==========
   let current = input;
@@ -381,18 +381,20 @@ export function trainStep(
     }
     matDot(layer.weightGradients, layer.biasGradients, pT);
 
-		// v = momentum · v - lr · dW;  W ← W + v
-		for (let i = 0; i < layer.weights.data.length; i++) {
-			layer.weightVelocity.data[i] =
-				momentum * layer.weightVelocity.data[i] - learningRate * layer.weightGradients.data[i];
-			layer.weights.data[i] += layer.weightVelocity.data[i];
-		}
-		// b ← b - lr · db (with momentum)
-		for (let i = 0; i < layer.biases.data.length; i++) {
-			layer.biasVelocity.data[i] =
-				momentum * layer.biasVelocity.data[i] - learningRate * layer.biasGradients.data[i];
-			layer.biases.data[i] += layer.biasVelocity.data[i];
-		}
+    // v = momentum · v - lr · dW;  W ← W + v
+    for (let i = 0; i < layer.weights.data.length; i++) {
+      layer.weightVelocity.data[i] =
+        momentum * layer.weightVelocity.data[i] -
+        learningRate * layer.weightGradients.data[i];
+      layer.weights.data[i] += layer.weightVelocity.data[i];
+    }
+    // b ← b - lr · db (with momentum)
+    for (let i = 0; i < layer.biases.data.length; i++) {
+      layer.biasVelocity.data[i] =
+        momentum * layer.biasVelocity.data[i] -
+        learningRate * layer.biasGradients.data[i];
+      layer.biases.data[i] += layer.biasVelocity.data[i];
+    }
 
     prevAct = layer.activation; // shift right for the next layer
   }
@@ -408,19 +410,25 @@ export function trainStep(
  * 100 epochs via the onEpoch callback so the UI can draw the loss curve.
  */
 export function train(
-	network: NeuralNetwork,
-	inputs: Matrix[],
-	targets: Matrix[],
-	epochs: number,
-	learningRate: number,
-	onEpoch?: (epoch: number, avgLoss: number) => void,
-	momentum = 0,
+  network: NeuralNetwork,
+  inputs: Matrix[],
+  targets: Matrix[],
+  epochs: number,
+  learningRate: number,
+  onEpoch?: (epoch: number, avgLoss: number) => void,
+  momentum = 0,
 ): void {
-	for (let epoch = 0; epoch < epochs; epoch++) {
-		let totalLoss = 0;
-		for (let i = 0; i < inputs.length; i++) {
-			totalLoss += trainStep(network, inputs[i], targets[i], learningRate, momentum);
-		}
+  for (let epoch = 0; epoch < epochs; epoch++) {
+    let totalLoss = 0;
+    for (let i = 0; i < inputs.length; i++) {
+      totalLoss += trainStep(
+        network,
+        inputs[i],
+        targets[i],
+        learningRate,
+        momentum,
+      );
+    }
     const avgLoss = totalLoss / inputs.length;
     if (onEpoch && epoch % 100 === 0) {
       onEpoch(epoch, avgLoss);
